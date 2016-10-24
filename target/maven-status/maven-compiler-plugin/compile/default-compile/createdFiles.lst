@@ -1,0 +1,9 @@
+com/vmlens/stress/test/CallMethod.class
+com/vmlens/StressTest.class
+com/vmlens/stress/test/JacksonClassAnnotationsTest.class
+com/vmlens/stress/test/DoubleBasedLocking.class
+com/vmlens/stress/test/WorkerThread.class
+com/vmlens/stress/test/DoubleBasedLockingTest.class
+com/vmlens/stress/test/SyncThreads.class
+com/vmlens/stress/test/setup/StressTestClassLoader.class
+com/vmlens/stress/test/Result.class
