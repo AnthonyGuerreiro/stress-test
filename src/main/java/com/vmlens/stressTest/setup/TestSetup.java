@@ -4,8 +4,8 @@ public interface TestSetup {
 	
 	
 	
-	
-	 Runnable createTest(int iteration,int blockNumber);
+	void initialize()      throws Exception;
+	Runnable createTest()  throws Exception;
 	
 	
 	

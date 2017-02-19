@@ -1,22 +1,25 @@
 package com.vmlens.stressTest.examples.doubleBasedLocking;
 
-import static org.hamcrest.MatcherAssert.assertThat; 
-import static org.hamcrest.Matchers.*;
+import org.junit.Assert;
 
 
 public class DoubleBasedLockingTest implements Runnable {
 	
-	DoubleBasedLocking doubleBasedLocking = new DoubleBasedLocking();
+	private final DoubleBasedLocking doubleBasedLocking = new DoubleBasedLocking();
 	
+	
+	
+
+
+
 
 
 	@Override
 	public void run() {
-		assertThat (doubleBasedLocking.getDoubleBasedLocking().value , equalTo(6));
-		
+
+		Assert.assertEquals(Object.class , (Class<Object>) doubleBasedLocking.getDoubleBasedLocking()[0]  );
+	
 	}
-	
-	
 	
 	
 	
