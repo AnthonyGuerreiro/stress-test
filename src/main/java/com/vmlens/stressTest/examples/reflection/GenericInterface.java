@@ -1,9 +1,13 @@
 package com.vmlens.stressTest.examples.reflection;
 
-public interface GenericInterface<E> {
 
-	<T> T genericMethod();
+public interface GenericInterface<Y extends GenericInterface<Y>> {
+
 	
+	
+	
+
 	
 	
 }
+

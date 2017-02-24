@@ -9,7 +9,7 @@ public class DoubleBasedLocking {
 	public Type[] getDoubleBasedLocking() {
 
 		if (instance == null) {
-			synchronized (this) {
+			//synchronized (this) {
 
 				if (instance == null) {
 
@@ -21,11 +21,13 @@ public class DoubleBasedLocking {
 
 				}
 
-			}
+			//}
 
 		}
 
-		return instance;
+		//return instance;
+		
+		return instance.clone();
 
 	}
 

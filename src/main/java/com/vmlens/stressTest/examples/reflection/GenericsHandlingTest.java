@@ -1,8 +1,9 @@
 package com.vmlens.stressTest.examples.reflection;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Type;
+
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.TypeVariable;
+
 
 import org.junit.Assert;
 
@@ -13,7 +14,7 @@ public class GenericsHandlingTest implements Runnable {
 	
 	
 	
-	public GenericsHandlingTest(TypeVariable typeVariable) {
+	public GenericsHandlingTest( TypeVariable typeVariable) {
 		super();
 		this.typeVariable = typeVariable;
 	}
@@ -25,20 +26,9 @@ public class GenericsHandlingTest implements Runnable {
 	public void run() {
 	
 		
+		Assert.assertTrue( typeVariable.getBounds()[0] instanceof  ParameterizedType );
 		
-		
-		
-        for( Type b : typeVariable.getBounds() )
-        {
-    	
-        	Assert.assertEquals( b.getTypeName()   ,  "java.lang.Object" );
-        	
-        }
-	    
-	  	
-	 	
-	 	
-	   // Assert.assertEquals( t.getTypeName()  , "T"  );
+
 		
 	}
 

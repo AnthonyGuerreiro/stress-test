@@ -6,16 +6,17 @@ import java.util.concurrent.Callable;
 
 public class TestCall implements Callable<Result> {
 
-	private final Runnable[] firstTestArray;
-	private final Runnable[] secondTestArray;
+	private final TestArray[] testArray;
+
 	
 	
 	
 	
-	public TestCall(Runnable[] firstTestArray, Runnable[] secondTestArray) {
+	public TestCall(TestArray[] testArray) {
 		super();
-		this.firstTestArray = firstTestArray;
-		this.secondTestArray = secondTestArray;
+		
+		this.testArray = testArray;
+		
 	}
 
 
@@ -26,30 +27,22 @@ public class TestCall implements Callable<Result> {
 	
 		List<Throwable> exceptionList = new LinkedList<Throwable>();
 		
-		for(Runnable t : firstTestArray)
+		
+		for(TestArray  array : testArray )
 		{
-			try{
-				t.run();
-			}
-			catch(Throwable throwable)
+			for(Runnable t : array.getTests())
 			{
-				exceptionList.add(throwable);
+				try{
+					t.run();
+				}
+				catch(Throwable throwable)
+				{
+					exceptionList.add(throwable);
+				}
 			}
-			
-			
 		}
 		
 		
-		for(Runnable t : secondTestArray)
-		{
-			try{
-				t.run();
-			}
-			catch(Throwable throwable)
-			{
-				exceptionList.add(throwable);
-			}
-		}
 		
 		
 		return new TestResult(exceptionList);

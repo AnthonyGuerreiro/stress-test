@@ -16,10 +16,10 @@ public class DoubleBasedLockingTestSetup implements TestSetup  {
 		
 	}
 
-	@Override
-	public void initialize() throws Exception {
-		// TODO Auto-generated method stub
-		
-	}
+
+	
+	
+	
+	
 
 }

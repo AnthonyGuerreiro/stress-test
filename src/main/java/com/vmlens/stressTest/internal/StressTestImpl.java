@@ -9,8 +9,6 @@ import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-
 import com.vmlens.stressTest.setup.TestSetup;
 
 public class StressTestImpl {
@@ -18,35 +16,34 @@ public class StressTestImpl {
 	
 	
 	
-	private void runTest( Class<TestSetup> testSetupClass, StopStrategy stopStrategy  ) throws Exception
+	private void runTest( Class<TestSetup> testSetupClass, StopStrategy stopStrategy ,  int workerThreadCount ,  int test_per_run   ) throws Exception
 	{
 		
 		
-		TestSetupCall[] testSetupCallArray = new TestSetupCall[4];
-		TestSetup testSetup = testSetupClass.newInstance();
-		testSetup.initialize();
+		TestSetupCall[] testSetupCallArray = new TestSetupCall[workerThreadCount];
+		
 	
 		
 		
-		for( int i = 0 ; i < 4 ; i++ )
+		for( int i = 0 ; i < workerThreadCount ; i++ )
 		{
 		
-			TestSetup[] testSetupArray = new TestSetup[200];
+			TestSetup[] testSetupArray = new TestSetup[test_per_run];
 			
-			for( int x = 0 ; x < 200; x++)
+			for( int x = 0 ; x < test_per_run; x++)
 			{
 				testSetupArray[x] = testSetupClass.newInstance();
 			}
 			
 			
-			testSetupCallArray[i] = new TestSetupCall(testSetupArray);
+			testSetupCallArray[i] = new TestSetupCall(testSetupArray,test_per_run);
 			
 		}
 		
 		
-		WorkerThread[] workerThreadArray = new WorkerThread[4];
+		WorkerThread[] workerThreadArray = new WorkerThread[workerThreadCount];
 		
-		for( int i = 0 ; i < 4 ; i++ )
+		for( int i = 0 ; i < workerThreadCount ; i++ )
 		{
 			workerThreadArray[i] = new WorkerThread();
 			workerThreadArray[i].start();
@@ -54,9 +51,10 @@ public class StressTestImpl {
 		
 		int errorCount = 0;
 		int iterations = 0;
-		
+		long testCount = 0;
 		
 		System.out.format("Started at: %tT", Calendar.getInstance());
+		System.out.println();
 		long startTime = System.currentTimeMillis();
 			
 		try{
@@ -67,34 +65,43 @@ public class StressTestImpl {
 		while( ! stopStrategy.stop(errorCount,iterations))
 		{
 			
-			for(int i = 0 ; i < 4 ; i++)
+			for(int i = 0 ; i < workerThreadCount ; i++)
 			{
 				workerThreadArray[i].in.put(  testSetupCallArray[i]  );
 			}
 			
-			TestSetupResult[] testSetupResultArray = new TestSetupResult[4];
+			TestSetupResult[] testSetupResultArray = new TestSetupResult[workerThreadCount];
 			
-			for(int i = 0 ; i < 4; i++)
+			for(int i = 0 ; i < workerThreadCount; i++)
 			{
 				Result result = workerThreadArray[i].out.take();
 				testSetupResultArray[i] = (TestSetupResult) result;
 			}
 			
-			TestCall[] testCallArray = new TestCall[4];
+			TestCall[] testCallArray = new TestCall[workerThreadCount];
 			
-			testCallArray[0] = new TestCall(testSetupResultArray[0].getTests(), testSetupResultArray[1].getTests());
-			testCallArray[1] = new TestCall(testSetupResultArray[0].getTests(), testSetupResultArray[1].getTests());
+			TestArray[] testArray = new TestArray[workerThreadCount];
 			
-			testCallArray[2] = new TestCall(testSetupResultArray[2].getTests(), testSetupResultArray[3].getTests());
-			testCallArray[3] = new TestCall(testSetupResultArray[2].getTests(), testSetupResultArray[3].getTests());
+			for(int i = 0 ; i < workerThreadCount ; i++)
+			{
+				testArray[i] = new TestArray(testSetupResultArray[i].getTests());	
+			}
 			
 			
-			for(int i = 0 ; i < 4 ; i++)
+			for(int i = 0 ; i < workerThreadCount ; i++)
+			{
+				testCallArray[i] = new TestCall(testArray);
+			}
+			
+
+			
+			
+			for(int i = 0 ; i < workerThreadCount ; i++)
 			{
 				workerThreadArray[i].in.put(  testCallArray[i]  );
 			}
 			
-			for(int i = 0 ; i < 4; i++)
+			for(int i = 0 ; i < workerThreadCount; i++)
 			{
 				Result result = workerThreadArray[i].out.take();
 				TestResult testResult  = (TestResult) result;
@@ -109,19 +116,20 @@ public class StressTestImpl {
 			
 			
 			iterations++;
+			testCount = testCount + (workerThreadCount * test_per_run);
 			
 		}
 		
 		}
 		finally{
-			for(int i = 0 ; i < 4 ; i++)
+			for(int i = 0 ; i < workerThreadCount ; i++)
 			{
 				workerThreadArray[i].in.put(  new PoisenedCall()  );
 			}
 		}
 		
 		System.out.println();
-		System.out.format("stopped after %.2f seconds, running for %d iterations with %d errors." ,((float) (System.currentTimeMillis() -  startTime) / 1000)  , iterations , errorCount );
+		System.out.format("stopped after %.2f seconds, running for %d iterations %d tests with %d errors." ,((float) (System.currentTimeMillis() -  startTime) / 1000)  , iterations ,testCount , errorCount );
 		System.out.println();
 		
 		
@@ -131,6 +139,8 @@ public class StressTestImpl {
 	
 	private static final String ITERATION_OPTION = "i";
 	private static final String ERROR_OPTION = "e";
+	private static final String WORKER_THREAD_OPTION = "w";
+	private static final String TEST_PER_ITERATION = "t";
 //	private static final String TEST_SETUP_OPTION = "c";
 	
 	
@@ -142,8 +152,8 @@ public class StressTestImpl {
 		
 		options.addOption( Option.builder(ITERATION_OPTION).hasArg().argName("iteration count").desc("stop after n iterations").build() );
 		options.addOption( Option.builder(ERROR_OPTION).hasArg().argName("error count").desc("stop after n iterations").build() );
-		
-		
+		options.addOption( Option.builder(WORKER_THREAD_OPTION).hasArg().argName("worker thread count").desc("number of worker threads").build() );
+		options.addOption( Option.builder(TEST_PER_ITERATION).hasArg().argName("test per iteration").desc("number of tests per iteration").build() );
 
 		
 		CommandLineParser parser = new DefaultParser();
@@ -174,11 +184,33 @@ public class StressTestImpl {
 			    	stopStrategy = new StopAtErrorCount(maxErrors);
 			    }
 			   
+			    int workerThreadCount = 4;
 			
+			    
+			    if( cmd.hasOption(WORKER_THREAD_OPTION))
+			    {
+			    	workerThreadCount =  Integer.parseInt( cmd.getOptionValue(WORKER_THREAD_OPTION));
+			    }
+			
+			    
+			    int test_per_run = 1000;
+			    
+			    if( cmd.hasOption(TEST_PER_ITERATION))
+			    {
+			    	test_per_run =  Integer.parseInt( cmd.getOptionValue(TEST_PER_ITERATION));
+			    }
+			
+			     
+			     
+			     
 			    if(stopStrategy != null)
 			    {
+			    	
+			    	
+			    	
+			    	
 			    	Class<TestSetup> cl =  (Class<TestSetup>) this.getClass().getClassLoader().loadClass(setupClassName);
-			    	runTest( cl , stopStrategy );
+			    	runTest( cl , stopStrategy , workerThreadCount,test_per_run);
 			    }
 			    else
 			    {

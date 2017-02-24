@@ -10,14 +10,15 @@ public class TestSetupCall implements Callable<Result> {
 
 	private final TestSetup[] testSetupArray;
 	private final Runnable[] testArray;
+	private final int test_per_run;
 	
 	
 	
-	
-	public TestSetupCall(TestSetup[] testSetupArray) {
+	public TestSetupCall(TestSetup[] testSetupArray, int test_per_run) {
 		super();
 		this.testSetupArray = testSetupArray;
-		testArray = new Runnable[200];
+		this.test_per_run = test_per_run;
+		testArray = new Runnable[test_per_run];
 	}
 
 
@@ -30,7 +31,7 @@ public class TestSetupCall implements Callable<Result> {
 		
 	
 		
-		for(int i = 0 ; i < 200 ; i++)
+		for(int i = 0 ; i < test_per_run ; i++)
 		{
 			testArray[i] = testSetupArray[i].createTest();
 		}
