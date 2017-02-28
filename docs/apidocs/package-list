@@ -1,0 +1,6 @@
+com.vmlens
+com.vmlens.stressTest.examples.clone
+com.vmlens.stressTest.examples.dataRace
+com.vmlens.stressTest.examples.reflection
+com.vmlens.stressTest.setup
+com.vmlens.stressTest.util

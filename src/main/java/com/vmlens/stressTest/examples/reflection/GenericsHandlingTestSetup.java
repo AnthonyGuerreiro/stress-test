@@ -12,6 +12,16 @@ import java.util.List;
 import com.vmlens.stressTest.setup.TestSetup;
 import com.vmlens.stressTest.util.StressTestClassLoader;
 
+
+/**
+ * 
+ * Creates a  {@link com.vmlens.stressTest.examples.reflection.GenericsHandlingTest}.
+ * 
+ * 
+ * @author thomas
+ *
+ */
+
 public class GenericsHandlingTestSetup implements TestSetup  {
 
 	

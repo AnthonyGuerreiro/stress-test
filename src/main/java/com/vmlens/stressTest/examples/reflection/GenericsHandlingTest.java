@@ -7,6 +7,17 @@ import java.lang.reflect.TypeVariable;
 
 import org.junit.Assert;
 
+
+/**
+ * 
+ * A test to reproduce a race condition in java.lang.reflect.TypeVariable.getBounds().
+ * 
+ * 
+ * @author thomas
+ *
+ */
+
+
 public class GenericsHandlingTest implements Runnable {
 
 	private final TypeVariable typeVariable;

@@ -5,6 +5,14 @@ import java.io.InputStream;
 
 import org.apache.commons.io.IOUtils;
 
+/**
+ * 
+ * 
+ * A class loader which loads a class without looking at classes loaded from a parent class loader.
+ * 
+ * @author thomas
+ *
+ */
 
 
 public class StressTestClassLoader extends ClassLoader {

@@ -141,6 +141,7 @@ public class StressTestImpl {
 	private static final String ERROR_OPTION = "e";
 	private static final String WORKER_THREAD_OPTION = "w";
 	private static final String TEST_PER_ITERATION = "t";
+	private static final String HELP_OPTION = "h";
 //	private static final String TEST_SETUP_OPTION = "c";
 	
 	
@@ -151,17 +152,27 @@ public class StressTestImpl {
 
 		
 		options.addOption( Option.builder(ITERATION_OPTION).hasArg().argName("iteration count").desc("stop after n iterations").build() );
-		options.addOption( Option.builder(ERROR_OPTION).hasArg().argName("error count").desc("stop after n iterations").build() );
+		options.addOption( Option.builder(ERROR_OPTION).hasArg().argName("error count").desc("stop after n errors").build() );
 		options.addOption( Option.builder(WORKER_THREAD_OPTION).hasArg().argName("worker thread count").desc("number of worker threads").build() );
 		options.addOption( Option.builder(TEST_PER_ITERATION).hasArg().argName("test per iteration").desc("number of tests per iteration").build() );
-
+		options.addOption( Option.builder(HELP_OPTION).desc("displays this message").build() );
 		
 		CommandLineParser parser = new DefaultParser();
 		try {
 			CommandLine cmd = parser.parse( options, args);
 			
 		
+		
+			
+			if(cmd.hasOption(HELP_OPTION) )
+			{
+				printHelp(options);
+				return;
+			}
+			
+			
 			String[]  leftOverArgs =  cmd.getArgs();
+			
 			
 			if( leftOverArgs.length != 1  )
 			{
