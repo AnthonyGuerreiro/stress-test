@@ -9,14 +9,20 @@ Test Setup Class must implement com.vmlens.stressTest.setup.TestSetup and have a
 Example: java  -cp stress-test-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.vmlens.StressTest -e 5 com.vmlens.stressTest.examples.doubleBasedLocking.DoubleBasedLockingTestSetup
 
 Options:
- -e <error count>           stop after n errors
- -i <iteration count>       stop after n iterations
+-e : 
+<error count>           stop after n errors
+-i : 
+<iteration count>       stop after n iterations
  -t <test per iteration>    number of tests per iteration
  -w <worker thread count>   number of worker threads
 
 #Examples
+ * 
 
 
+#Api Doc
+
+https://vmlens.github.io/stress-test/apidocs
 
 
 
