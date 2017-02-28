@@ -9,15 +9,30 @@ Test Setup Class must implement com.vmlens.stressTest.setup.TestSetup and have a
 Example: java  -cp stress-test-0.0.1-SNAPSHOT-jar-with-dependencies.jar com.vmlens.StressTest -e 5 com.vmlens.stressTest.examples.doubleBasedLocking.DoubleBasedLockingTestSetup
 
 Options:
--e : 
-<error count>           stop after n errors
--i : 
-<iteration count>       stop after n iterations
- -t <test per iteration>    number of tests per iteration
- -w <worker thread count>   number of worker threads
+<dl>
+  <dt>-e <error count></dt>
+  <dd> stop after n errors</dd>
+
+  <dt>-i <iteration count>  </dt>
+  <dd>stop after n iterations</dd>
+ 
+ 
+   <dt> -t <test per iteration></dt>
+  <dd> number of tests per iteration</dd>
+
+  <dt> -w <worker thread count>  </dt>
+  <dd>    
+   number of worker threads</dd>
+ 
+ 
+ 
+</dl>
+
+
+
 
 #Examples
- * 
+ * dataRace: This test contains a simple data race. If its run on an ARM compatible plattform like for an example an rasberry pi it will generate null pointer exceptions. 
 
 
 #Api Doc
