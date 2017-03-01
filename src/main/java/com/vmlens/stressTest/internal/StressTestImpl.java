@@ -52,6 +52,7 @@ public class StressTestImpl {
 		int errorCount = 0;
 		int iterations = 0;
 		long testCount = 0;
+		long callCount = 0;
 		
 		System.out.format("Started at: %tT", Calendar.getInstance());
 		System.out.println();
@@ -116,8 +117,8 @@ public class StressTestImpl {
 			
 			
 			iterations++;
-			testCount = testCount + (workerThreadCount * test_per_run);
-			
+			testCount +=  test_per_run * workerThreadCount;
+			callCount +=  test_per_run * workerThreadCount * workerThreadCount;
 		}
 		
 		}
@@ -129,7 +130,7 @@ public class StressTestImpl {
 		}
 		
 		System.out.println();
-		System.out.format("stopped after %.2f seconds, running for %d iterations %d tests with %d errors." ,((float) (System.currentTimeMillis() -  startTime) / 1000)  , iterations ,testCount , errorCount );
+		System.out.format("stopped after %.2f seconds, running for %d iterations, %d tests, %d calls with %d errors." ,((float) (System.currentTimeMillis() -  startTime) / 1000)  , iterations ,testCount ,callCount ,  errorCount );
 		System.out.println();
 		
 		

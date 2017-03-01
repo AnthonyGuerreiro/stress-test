@@ -39,8 +39,9 @@ public class CloneTest implements Runnable {
 
 		}
 
-		 instance.clone();
+		Type[] clonedInstance =  instance.clone();
 		
+		clonedInstance[0].getTypeName();
 		
 
 	}

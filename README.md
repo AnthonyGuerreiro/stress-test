@@ -1,6 +1,6 @@
 # stess-test
 
-Stress test is a tool to reproduce java race conditions. It creates an array of <test per iteration> tests using the test setup class by n worker threads. It than executes it test by n worker threads till the given iteration count or error count is reached. 
+Stress test is a tool to reproduce java race conditions. It creates an array of <test per iteration> tests using the test setup class by n worker threads. It then executes the test by n worker threads till the given iteration count or error count is reached. 
 
 usage: com.vmlens.StressTest (-e <error count> | -i <iteration count>) <Test Setup Class>
 
@@ -32,8 +32,8 @@ Options:
 
 
 #Examples
- * dataRace: This test contains a simple data race. If its run on an ARM compatible plattform like for an example an rasberry pi it will generate null pointer exceptions. 
-
+ * dataRace.DataRaceTest: This test contains a simple data race. If its run on an ARM compatible plattform like for example an rasberry pi it will generate null pointer exceptions. 
+ * reflection.GenericsHandlingTest: A test to reproduce a race condition in java.lang.reflect.TypeVariable.getBounds()
 
 #Api Doc
 
