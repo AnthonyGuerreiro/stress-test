@@ -42,20 +42,11 @@ https://vmlens.github.io/stress-test/apidocs
 
 
 #Latest release
-* [jar](http://search.maven.org/remotecontent?filepath=com/vmlens/concurrent-junit/1.0.0/concurrent-junit-1.0.0.jar) 
-* [sources](http://search.maven.org/remotecontent?filepath=com/vmlens/concurrent-junit/1.0.0/concurrent-junit-1.0.0-sources.jar) 
-* [javadoc](http://search.maven.org/remotecontent?filepath=com/vmlens/concurrent-junit/1.0.0/concurrent-junit-1.0.0-javadoc.jar) 
+* [jar](https://github.com/vmlens/stress-test/releases/download/0.0.1/stress-test-0.0.1-SNAPSHOT-jar-with-dependencies.jar)  
+* [javadoc](https://github.com/vmlens/stress-test/releases/download/0.0.1/stress-test-0.0.1-SNAPSHOT-javadoc.jar) 
 
 
-## Maven
 
-```xml
-<dependency>
-<groupId>com.vmlens</groupId>
-<artifactId>concurrent-junit</artifactId>
-<version>1.0.0</version>
-</dependency>
-```
 
 
 #License
